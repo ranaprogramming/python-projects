@@ -1,83 +1,23 @@
+# A Python command-line game where users try to guess a randomly generated number between 1 and 100. Includes high/low hints, attempt tracking, loops, conditionals, and user input handling.
 
 
 import random
 
+number = random.randint(1, 100)
 
-class Game:
-    def __init__(self, low=1, high=100, max_attempts=7):
-        self.low = low
-        self.high = high
-        self.secret = random.randint(low, high)
-        self.max_attempts = max_attempts
-        self.attempts_used = 0
+attempts = 0  
+print(number)
 
-    def guess(self, value):
-        
-        self.attempts_used += 1
-        if value < self.secret:
-            return "low"
-        elif value > self.secret:
-            return "high"
-        else:
-            return "correct"
+while True: 
+    GuseNumber = int(input("Enter a number: "))
 
-    def attempts_left(self):
-        return self.max_attempts - self.attempts_used
-
-    def is_over(self):
-        return self.attempts_used >= self.max_attempts
-
-
-def choose_difficulty():
-    print("\n1. Easy   (1-50,  10 attempts)")
-    print("2. Medium (1-100, 7 attempts)")
-    print("3. Hard   (1-200, 5 attempts)")
-    choice = input("Choose difficulty (1-3): ").strip()
-    settings = {
-        "1": (1, 50, 10),
-        "2": (1, 100, 7),
-        "3": (1, 200, 5),
-    }
-    return settings.get(choice, (1, 100, 7))  # default to Medium on invalid input
-
-
-def play_round(game):
-    print(f"\nI'm thinking of a number between {game.low} and {game.high}.")
-
-    while not game.is_over():
-        raw = input(f"Guess a number ({game.attempts_left()} attempts left): ").strip()
-
-        try:
-            value = int(raw)
-        except ValueError:
-            print("That's not a valid number — try again.")
-            continue  # doesn't count as an attempt
-
-        result = game.guess(value)
-        if result == "correct":
-            print(f"Correct! You got it in {game.attempts_used} attempt(s).")
-            break
-        elif result == "low":
-            print("Too low.")
-        else:
-            print("Too high.")
+    attempts = attempts + 1
+    
+    if GuseNumber > number:
+        print("Number is to high")
+    elif GuseNumber < number:
+        print("Number is to low")
     else:
-        # only runs if the while loop ended by running out of attempts,
-        # not if it ended via 'break' on a correct guess
-        print(f"Out of attempts! The number was {game.secret}.")
-
-
-def main():
-    while True:
-        low, high, max_attempts = choose_difficulty()
-        game = Game(low, high, max_attempts)
-        play_round(game)
-
-        again = input("\nPlay again? (y/n): ").strip().lower()
-        if again != "y":
-            print("Thanks for playing!")
-            break
-
-
-if __name__ == "__main__":
-    main()
+        print(f"Congratulations you guessed the number: {number} ")
+        print(f" Attempts: {attempts}")
+        break
