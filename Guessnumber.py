@@ -1,14 +1,4 @@
-"""
-Number Guessing Game
------------------------
-Demonstrates:
-- a class holding game state (secret number, attempts) instead of globals
-- separating game logic (Game.guess) from display/I/O (the main loop)
-- try/except ValueError for non-numeric input, using continue to re-prompt
-  without costing the player an attempt
-- while/else: the else runs only if the loop was never broken out of
-- dict dispatch for a difficulty menu
-"""
+
 
 import random
 
@@ -22,7 +12,7 @@ class Game:
         self.attempts_used = 0
 
     def guess(self, value):
-        """Register a guess, return 'low', 'high', or 'correct'."""
+        
         self.attempts_used += 1
         if value < self.secret:
             return "low"
