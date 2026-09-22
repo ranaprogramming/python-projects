@@ -1,105 +1,68 @@
+print("=" * 50)
+print("          CONTACT MANAGEMENT SYSTEM")
+print("=" * 50)
 
+contacts = []
 
-import json
+while True:
 
-DATA_FILE = "contacts.json"
+    print("1: Add Contact")
+    print("2: View All Contacts")
+    print("3: Search Contact")
+    print("4: Update Contact")
+    print("5: Delete Contact")
+    print("6: Exit Contact")
 
+    choice = input("Enter a choice")
 
-def load_contacts(filename=DATA_FILE):
-    
-    try:
-        with open(filename, "r") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return {}
-    except json.JSONDecodeError:
-        print("Warning: contacts file was corrupted. Starting fresh.")
-        return {}
+    if choice == "1":
+        name = input("Enter Name: ")
+        phone_no = int(input("Enter Phone Number: "))
+        email = input("Enter Email: ")
 
+        contact = {
+            "name" : name,
+            "phone_no" : phone_no,
+            "Email" : email
+        }
+        contacts.append(contact)
+        print("Contact Added successfully")
+    elif choice == "2":
+        for index,contact in enumerate(contacts, start=1):
+            print(index, contact["name"], "|", contact["phone_no"], "|", contact["Email"])
 
-def save_contacts(contacts, filename=DATA_FILE):
-    """Write the current contacts dict to disk as JSON."""
-    with open(filename, "w") as f:
-        json.dump(contacts, f, indent=2)
-
-
-def add_contact(contacts, name, phone, email):
-    if not name:
-        print("Name cannot be empty.")
-        return
-    if phone and not phone.replace("-", "").isdigit():
-        print("Phone number should contain only digits and dashes.")
-        return
-    contacts[name] = {"phone": phone, "email": email}
-    print(f"Added {name}.")
-
-
-def search_contact(contacts, name):
-    if name in contacts:
-        info = contacts[name]
-        print(f"{name}: {info['phone']}, {info['email']}")
-    else:
-        print(f"No contact found for '{name}'.")
-
-
-def delete_contact(contacts, name):
-    if name in contacts:
-        del contacts[name]
-        print(f"Deleted {name}.")
-    else:
-        print(f"No contact found for '{name}'.")
-
-
-def list_contacts(contacts):
-    if not contacts:
-        print("Contact book is empty.")
-        return
-    print(f"\n{len(contacts)} contact(s):")
-    for name, info in sorted(contacts.items()):
-        print(f"  {name}: {info['phone']}, {info['email']}")
-
-
-def print_menu():
-    print("\n--- Contact Book ---")
-    print("1. Add contact")
-    print("2. Search contact")
-    print("3. Delete contact")
-    print("4. List all contacts")
-    print("5. Save and exit")
-
-
-def main():
-    contacts = load_contacts()
-
-    while True:
-        print_menu()
-        choice = input("Choose an option (1-5): ").strip()
-
-        if choice == "1":
-            name = input("Name: ").strip()
-            phone = input("Phone: ").strip()
-            email = input("Email: ").strip()
-            add_contact(contacts, name, phone, email)
-
-        elif choice == "2":
-            name = input("Name to search: ").strip()
-            search_contact(contacts, name)
-
-        elif choice == "3":
-            name = input("Name to delete: ").strip()
-            delete_contact(contacts, name)
-
-        elif choice == "4":
-            list_contacts(contacts)
-
-        elif choice == "5":
-            save_contacts(contacts)
-            print("Saved. Goodbye!")
-            break
-
+    elif choice == "3":
+        phoneno = int(input("Enter PhoneNo to search: "))
+        for contact in contacts:
+            if phoneno == contact["phone_no"]:
+                print("Name:", contact["name"])
+                print("Phone No:", contact["phone_no"])
+                print("Email:", contact["Email"])
+                break
         else:
-            print("Invalid option, please choose 1-5.")
+            print("No contact Found")
+    elif choice == "4":
+        phoneno = int(input("Enter Phone no to Search: "))
+        for contact in contacts:
+            if phoneno == contact["phone_no"]:
+                contact["name"] = input("Enter new Name: ")
+                contact["phone_no"] = int(input("Enter new Phone no: "))
+                contact["Email"] = input("Enter new Email : ")
 
+                print("Contact updated Successfully")
+                break
+        else:
+            print("No Contact found")
 
-if __name__ == "__main__":
-    main()
+    elif choice == "5":
+        phoneno = int(input("Enter Phone no to Search: "))
+        for contact in contacts:
+            if phoneno == contact["phone_no"]:
+                contacts.remove(contact)
+                print("Contact Deleted Successfully")
+                break
+        else: 
+            print("No Contact found")
+    elif choice == "6":
+        print("Contact managment system Exiting....")
+        break
