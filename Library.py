@@ -50,6 +50,6 @@ while True:
         bookNumber = int(input("Enter book Number to remove: "))
         
         books.pop(bookNumber - 1)
-        print("Book Remocve successfully")
+        print("Book Removed successfully")
     elif choice == "6":
         break
